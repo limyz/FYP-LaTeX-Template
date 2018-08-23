@@ -1,96 +1,152 @@
 \documentclass[fyp]{socreport}
-\usepackage{fullpage}
-\begin{document}
-\pagenumbering{roman}
-\title{Design and Implementation of an Algorithm for a Problem}
-\author{Tan Ah Kow}
-\projyear{2004/05}
-\projnumber{H123456}
-\advisor{Dr. Lee Ah Hua}
-\deliverables{
-	\item Report: 1 Volume
-	\item Source Code: 1 DVD}
-\maketitle
-\begin{abstract}
-In this report, we study a problem and design an efficient algorithm
-to solve the problem.  We implemented the algorithm and evaluated
-its performance againts previous proposed algorithms that solves the
-same problem.  Our results show that our algorithm runs faster.
 
-\begin{descriptors}
-    \item C5 Computer System Implementation
-	\item G2.2 Graph Algorithms
-\end{descriptors}
-\begin{keywords}
-	Problem, algorithm, implementation
-\end{keywords}
-\begin{implement}
-	Solaris 10, g++ 3.3, Tcl/Tk 8.4.7
-\end{implement}
+\usepackage{color}
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage[intoc]{nomencl}
+\usepackage{pdfpages}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+
+\Urlmuskip=0mu plus 1mu
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\newlength{\nomitemorigsep}
+\setlength{\nomitemorigsep}{\nomitemsep}
+\setlength{\nomitemsep}{-\parsep}
+
+\makenomenclature
+\renewcommand{\nomname}{List of Symbols and Abbreviations}
+\renewcommand{\nomgroup}[1]{%
+  \itemsep\nomitemorigsep%
+  \ifthenelse{%
+    \equal{#1}{A}%
+  }{%
+  \item[\textbf{Symbols}]%
+
+  }{%
+    \ifthenelse{\equal{#1}{B}}{%
+    \item[\textbf{Other Variables}]%
+
+    }{}%
+  }{%
+    \ifthenelse{\equal{#1}{Z}}{%
+    \item[\textbf{Abbreviations}]%
+
+    }{}%
+  }%
+  \itemsep\nomitemsep% Restore spacing
+}
+
+\begin{document}
+\title{\textcolor{red}{Project Title}}
+\author{\textcolor{red}{Student Name}}
+\projyear{\textcolor{red}{2017/2018}}
+\projnumber{H\textcolor{red}{xxxxxx}}
+\advisor{\textcolor{red}{Prof/Assoc Prof/Dr + Supervisor Name}}
+\deliverables{
+    \color{red}
+	\item Report: 1x Volume
+	\item Manual: 1 Volume
+    \item Program: 1 Diskette/Thumbdrive
+    \item Database: 1 Diskette/Thumbdrive 
+}
+\maketitle
+
+\pagenumbering{roman}
+\begin{abstract}
+\textcolor{red}{The abstract should be short, generally within about 2 paragraphs (about 250 words in total). The abstract should contain the essence of the project, emphasizing the objective, the approach adopted or methodology and the important results obtained.}
 \end{abstract}
 
 \begin{acknowledgement}
-   I would like to thank my friends, families and advisors.
-   Without them, I would not have be able to complete this project.
+\textcolor{red}{Give acknowledgement to any advisory or financial assistance received in the course of your work.}
 \end{acknowledgement}
 
-\listoffigures 
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
 \listoftables
-\tableofcontents 
+\mbox{}
+\nomenclature[a]{$Symbol$}{Symbol Description}
+\nomenclature[z]{abbr}{Expansion}
+\printnomenclature[0.9in]
 
 \chapter{Introduction}
-Many problems exist in computer science.  In this project, we 
-studied one particular important problem and propose a solution 
-for it.  
+\textcolor{red}{The following should roughly be the structure of the thesis. Note that these are just guidelines, not rules.}
 
-\section{Background}
-In this section, we briefly discuss the history and background
-of the problem.  A detail literature survey is presented in 
-Chapter \ref{ch:related}.
+\textcolor{red}{Most reports start with an introduction chapter. This chapter should answer the following questions (not necessarily in that order, but what is given below is a logical order). After title/abstract, introduction and conclusions are the two mainly read parts of a report.}
 
-The problem we study in this report is an important one.
-This problem is first proposed in 1990 in the context
-of graph theory \cite{smith90graph}.  Zhang gives the
-first algorithm to the problem and applied it to solve several 
-problems in artificial intelligence \cite{zhang91ai,zhang92ai}.  
-More recently, a slightly different formulation of the problem
-is studied independently \cite{kovsky92diff,ali94diff}.  None of this previous work
-uses the technique that we propose in this project.  Thus, we 
-believe that our algorithm is novel.
+\begin{itemize}
+    \color{red}
+    \item What is the setting of the problem? This is, in other words, the background.
+    \item What exactly is the problem you are trying to solve? What is the objective?
+    \item Why is the problem important to solve? This is the motivation. In some cases, it may be implicit in the background, or the problem statement itself.
+    \item Is the problem still unsolved? The constitutes the literature review part.
+    \item How have you solved the problem? Here you state the essence of your approach. This is of course expanded upon later, but it must be stated explicitly here.
+    \item What are the conditions under which your solution is applicable? This is a statement of assumptions.
+    \item What are the main results? You have to present the main summary of the results here.
+    \item What is the summary of your contributions? This in some cases may be implicit in the rest of the introduction. Sometimes it helps to state contributions explicitly.
+    \item How is the rest of the report organized? Here you include a paragraph on the flow of ideas in the rest of the report. 
+\end{itemize}
 
-\section{The Problem}
-In this section, we formally defined the problem.  We adopt
-the definition given by Kovsky \cite{kovsky92diff}.
+\textcolor{red}{The introduction is nothing but a shorter version of the rest of the report, and in many cases the rest of the report can also have the same flow. Think of the rest of the report as an expansion of some of the points in the introduction. Which of the above bullets are expanded into separate sections (perhaps even multiple sections) depends very much on the problem.
+}
 
-\section{Our Solution}
-\section{Report Organization}
+\chapter{Background}
+\label{ch:background}
+\textcolor{red}{This is expanded upon into a separate section if there is sufficient background which the general reader must understand before knowing the details of your work.}
 
-\chapter{Related Work}
-\label{ch:related}
+\chapter{Literature Review}
+\label{ch:review}
+\textcolor{red}{It is common to have this as a separate section or chapter, discussing related work that have been performed by other students or researchers. Here, you must try to think of the comparison of your work with other work. For instance, you may compare in terms of functionality, in terms of performance, and/or in terms of approach.}
 
-\chapter{Problem and Algorithm}
-\section{Formal Description of Problem}
-\section{Design of Algorithm}
-\section{Proof of Correctness}
-\section{Complexity Analysis}
+\chapter{Technical Section}
+\label{ch:technical}
+\textcolor{red}{The main body of the report may be divided into multiple chapters as the case may be. You may have different chapters which delve into different aspects of the problem. \\ The technical section is the most work-specific, and hence is the least described here. However, it makes sense to mention the following main points:}
 
-\chapter{Evaluation}
-\section{Implementation Details}
-\section{Experimental Setup}
-\section{Results}
+\begin{itemize}
+    \color{red}
+    \item Outlines/flow: For sections which may be huge, with many subsections, it is appropriate to have a rough outline of the section at the beginning of that section. Make sure that the flow is maintained as the reader goes from one section to another. There should be no abrupt jumps in ideas.
+    \item Use of figures: The cliche "a picture is worth a thousand words" is appropriate here. Spend time thinking about appropriate illustrations. Wherever necessary, explain all aspects of a figure (ideally, this should be easy), and do not leave the reader wondering as to what the connection between the figure and the text is. All illustrations (figures, tables, etc.) should be explicitly refered to in the text, at least once, by its figure or table number. Each illustration should also be given an appropriate caption or description. In general, the table caption should be placed at the top of the table while the figure caption should be placed below the figure.
+    \item Terminology: Define each term/symbol before you use it, or right after its first use. Stick to a common terminology throughout the report.
+\end{itemize}
+
+\chapter{Results}
+\textcolor{red}{This is part of the set of technical sections, and is usually a separate section for experimental/design papers. You have to answer the following questions in this section:}
+
+\begin{itemize}
+    \color{red}
+    \item What aspects of your system or algorithm are you trying to evaluate? That is, what are the questions you will seek to answer through the evaluations?
+    \item Why are you trying to evaluate the above aspects?
+    \item What are the cases of comparison? If you have proposed an algorithm or a design, what do you compare it with?
+    \item What are the performance metrics? Why?
+    \item What are the parameters under study?
+    \item What is the experimental setup? Explain the choice of every parameter value (range) carefully.
+    \item What are the results?
+    \item Finally, why do the results look the way they do? 
+\end{itemize}
+
+\textcolor{red}{The results are usually presented as tables and graphs. In explaining tables and graphs, you have to explain them as completely as possible. Identify trends in the data. Does the data prove what you want to establish? In what cases are the results explainable, and in what cases unexplainable if any?}
 
 \chapter{Conclusion}
-\section{Contributions}
-\section{Future Work}
+\label{ch:conclusion}
+\textcolor{red}{Readers usually read the title, abstract, introduction, and conclusions. In that sense, this section is quite important. You have to state concisely the main take-away points from your work. How has the reader become smarter, or how has the world become a better place because of your work?}
 
-\bibliographystyle{socreport}
-\bibliography{socreport}
+\section{Future Work}
+\textcolor{red}{This section in some cases is combined along with the "conclusions" section. Here you state aspects of the problem you have not considered and possibilities for further extensions.}
+
+\section{Final Words}
+\textcolor{red}{If you are still having problems to write your dissertation, why not simply refer to a source? \cite{fypguide}}
+
+%\bibliographystyle{socreport}
+%\bibliographystyle{ieeetr}
+\bibliographystyle{elsarticle-num}
+\bibliography{references}
 
 \appendix
-\chapter{Code}
+\chapter{Appendix}
+\label{ap-sample}
 
-\chapter{Proofs}
-In this appendix, we present alternate, longer, but more interesting proof 
-of correctness of our algorithm.  This proof is based on induction and proof
-by contradiction.
 \end{document}

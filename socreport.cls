@@ -1,6 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{socreport}
-              [2001/04/21 v1.4e NUS SoC FYP/UROP Report Class]
+              [2018/03/15 v1.5 NUS ECE FYP Report Class
+              Adapted from 2001/04/21 v1.4e NUS SoC FYP/UROP Report Class]
 \newcommand\@ptsize{}
 \newif\if@restonecol
 \newif\if@titlepage
@@ -77,11 +78,11 @@
 \newenvironment{descriptors}
                {\parindent 0em
 			   \vspace{1cm}Subject Descriptors: \list{}{\itemindent 1.5em%
-			   											\leftmargin 0em%
-														\topsep 0em%
-			   											\listparindent \z@
-			   											\itemsep \z@
-														  \parsep \z@}}
+	   											\leftmargin 0em%
+												\topsep 0em%
+	   											\listparindent \z@
+	   											\itemsep \z@
+										        \parsep \z@}}
                {\endlist}
 \newenvironment{keywords}[1]
                {\parindent 0em
@@ -103,10 +104,10 @@
   \newenvironment{acknowledgement}{%
       \titlepage
       \doublespacing
-	  \addcontentsline{toc}{chapter}{Acknowledgement}
+	  \addcontentsline{toc}{chapter}{Acknowledgements}
       \@beginparpenalty\@lowpenalty
       \begin{center}%
-        \bfseries Acknowledgement
+        \bfseries Acknowledgements
         \@endparpenalty\@M
       \end{center}}%
      {\par\vfil\null\endtitlepage}
@@ -127,287 +128,6 @@
 }
 \newcommand{\changenormalspacing}[1]{\renewcommand{\normalspacing}{#1}}
 
-% from apa.sty.
-
-\newif\ifcitehead
-\newif\ifcitetail
-\newif\iffirstcite
-\newif\ifciteinparen
-
-\def\@setfirstcite#1{%
-  \@ifundefined{c@#1}{%
-    \expandafter\gdef\csname c@#1\endcsname{}%
-    \firstcitetrue%
-  }{%
-    \firstcitefalse%
-    }%
-  }
-
-\def\@internalcite{%
-  \@ifnextchar[{\citeheadtrue\@citegettail}{\citeheadfalse\@citegettail[]}}%
-  \def\@citegettail[#1]{%
-    \setbox\@tempboxa\hbox{#1}\ifdim \wd\@tempboxa >0pt\else\citeheadfalse\fi%
-    \@ifnextchar[{\citetailtrue\@citex[#1]}{\citetailfalse\@citex[#1][]}}
-
-\def\@citex[#1][#2]#3{%
-  \if@filesw\immediate\write\@auxout{\string\citation{#3}}\fi%
-  \def\@citeand{\ and\ }\def\@citea{}\def\@citepos{\def\@citeand{~\&\ }'\ (}%
-  \def\@citeposs{\def\@citeand{~\&\ }'s\ (}%
-  \def\@citeout{\def\@citeand{~\&\ }\ (}\def\@lastcite{}%
-  \@cite{\@for\@citeb:=#3\do{%
-    \@ifundefined{b@\@citeb}{{\@citeb}%
-    \@warning{Citation `\@citeb' on page \thepage \space undefined}}%
-    {\csname b@\@citeb\endcsname}}}{#1}{#2}}
-
-\def\@citeand{\ifciteinparen~\&\ \else\ and\ \fi}
-
-\def\@bocite#1#2{\ifcitehead#2\ \fi#1}
-\def\@bccite#1#2{\def\@citeand{~\&\ }(\@bocite{#1}{#2}}
-\def\@eocite#1{\ifcitetail, #1\fi}
-\def\@eccite#1{\@eocite{#1})}
-
-\def\@cite#1#2#3{\@bcite{#1}{#2}\@ecite{#3}}
-
-\def\@ifempty#1#2#3{\def\arg{#1}\ifx\arg\empty#2\else#3\fi}
-
-% This stuff allows short (name-less) citations, when used in
-% conjunction with a bibliography style that creates labels like
-%       \citename{<first name>}{<middle names>}{<last name>}{<label>}{<year>}{<key>}
-
-\def\cite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1~\&\ ##3}%
-        {\@setfirstcite{##6}\iffirstcite##1,\ ##2,~\&\ ##3\else##1\ et~al.\fi}},\ ##5\fi}%
-  \def\@bcite{\@bccite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\outcite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1\@citeand##3}%
-        {\@setfirstcite{##6}\iffirstcite##1,\ ##2,\@citeand##3\else##1\ et~al.\fi}}%
-      \@citeout\def\@citeout{,\ }##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\nopcite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1~\&\ ##3}%
-        {\@setfirstcite{##6}\iffirstcite##1,\ ##2,~\&\ ##3\else##1\ et~al.\fi}}%
-      ,\ ##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eocite}\@internalcite}
-
-\def\poscite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1\@citeand##3}%
-        {\@setfirstcite{##6}\iffirstcite##1,\ ##2,\@citeand##3\else##1\ et~al.\fi}}%
-      \@citepos\def\@citepos{,\ }##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\posscite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1\@citeand##3}%
-        {\@setfirstcite{##6}\iffirstcite##1,\ ##2,\@citeand##3\else##1\ et~al.\fi}}%
-      \@citeposs\def\@citeposs{,\ }##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\yrcite{%
-  \def\citename##1##2##3##4##5##6{\@citea\def\@citea{,\ }##5}%
-  \def\@bcite{\@bccite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\yrnopcite{%
-  \def\citename##1##2##3##4##5##6{\@citea\def\@citea{,\ }##5}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eocite}\@internalcite}
-
-%
-% always list all authors
-%
-\def\fullcite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1~\&\ ##3}%
-        {##1,\ ##2,~\&\ ##3}}%
-      ,\ ##5\fi}%
-  \def\@bcite{\@bccite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\fulloutcite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1\@citeand##3}%
-        {##1,\ ##2,\@citeand##3}}%
-      \@citeout\def\@citeout{,\ }##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\fullnopcite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1~\&\ ##3}%
-        {##1,\ ##2,~\&\ ##3}}%
-      ,\ ##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eocite}\@internalcite}
-
-\def\fullposcite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1\@citeand##3}%
-        {##1,\ ##2,\@citeand##3}}%
-      \@citepos\def\@citepos{,\ }##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\fullposscite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1\@citeand##3}%
-        {##1,\ ##2,\@citeand##3}}%
-      \@citeposs\def\@citeposs{,\ }##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eccite}\@internalcite}
-
-%
-% always use et al.
-%
-\def\abbrevcite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1~\&\ ##3}%
-        {##1\ et~al.}}%
-      ,\ ##5\fi}%
-  \def\@bcite{\@bccite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\abbrevoutcite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1\@citeand##3}%
-        {##1\ et~al.}}%
-      \@citeout\def\@citeout{,\ }##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\abbrevnopcite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1~\&\ ##3}%
-        {##1\ et~al.}}%
-      ,\ ##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eocite}\@internalcite}
-
-\def\abbrevposcite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1\@citeand##3}%
-        {##1\ et~al.}}%
-      \@citepos\def\@citepos{,\ }##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eccite}\@internalcite}
-
-\def\abbrevposscite{%
-  \def\citename##1##2##3##4##5##6{%
-    \def\@thiscite{##1##2##3}%
-    \ifx\@thiscite\@lastcite,\ ##5%
-    \else%
-      \@citea\def\@citea{;\ }\def\@lastcite{##1##2##3}%
-      \@ifempty{##3}{##1}%
-      {\@ifempty{##2}{##1\@citeand##3}%
-        {##1\ et~al.}}%
-      \@citeposs\def\@citeposs{,\ }##5\fi}%
-  \def\@bcite{\@bocite}\def\@ecite{\@eccite}\@internalcite}
-
-
-% some people perfer the name \incite to \outcite
-\let\incite\outcite
-\let\fullincite\fulloutcite
-\let\abbrevincite\abbrevoutcite
-
-
-% This makes the bibliography entries have no labels, and be
-% outdented (first line is flush with left margin)
-
-\def\@biblabel#1{}
-\def\@lbibitem[#1]#2{\item[\@biblabel{#1}]\hskip -\leftmargin\if@filesw 
-      {\def\protect##1{\string ##1\space}\immediate
-        \write\@auxout{\string\bibcite{#2}{#1}}}\fi\ignorespaces}
-
-%
-% just changed to have \itemsep 0em
-%
-%\def\thebibliography#1{\section{References}\list
-% {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
-% \advance\leftmargin\labelsep\itemsep 0em
-% \usecounter{enumi}}
-% \def\newblock{\hskip .11em plus .33em minus .07em}
-% \sloppy\clubpenalty4000\widowpenalty4000
-% \sfcode`\.=1000\relax}
-%\let\endthebibliography=\endlist
-%
-% An untitled bibliography environment
-%
-\def\theuntitledbibliography#1{\list
-  {\relax}{\labelsep 0em\itemindent 1.5em\leftmargin 3.5em}
-    \def\newblock{\hskip .11em plus .33em minus .07em}
-    \sloppy\clubpenalty4000\widowpenalty4000
-    \sfcode`\.=1000\relax}
-%
-% for small headers inside theuntitledbibliography
-%
-\newcommand{\bibhead}[1]{\item \hspace*{-5em}{\normalsize\bf #1}}
-
-% END
-%
 \ExecuteOptions{a4paper,11pt,titlepage,oneside,onecolumn,final,fullpage,openany}
 \ProcessOptions
 \input{size1\@ptsize.clo}
@@ -473,68 +193,102 @@
 \thispagestyle{empty}
 \begin{centering}
 \large
-\if@urop
-  Undergraduate Research Opportunity Program\\
-  (UROP) Project Report \\
-\else
-  \if@fyp
-     B.Comp. Dissertation \\
-   \else
-     \errmessage{Unknown project type. Please use option fyp or urop in documentclass}
-  \fi
-\fi
-\vspace{2 cm}
-\Large \textbf{\@title} \vspace{2 cm} \large \\
-By \\ \vspace{.5cm}
-\@author \\
-\vspace{2 cm} 
-Department of Computer Science \\  \vspace{.5cm}
-School of Computing \\ \vspace{.5cm}
-National University of Singapore \\ \vspace{1cm}
-\@pjyear \\
+%\if@urop
+%  Undergraduate Research Opportunity Program\\
+%  (UROP) Project Report \\
+%\else
+%  \if@fyp
+%     B.Comp. Dissertation \\
+%   \else
+%     \errmessage{Unknown project type. Please use option fyp or urop in documentclass}
+%  \fi
+%\fi
 \vspace{6 cm}
-\newpage
-\setcounter{page}\@ne
-\addcontentsline{toc}{chapter}{Title}
-\thispagestyle{empty}
-\large
-\if@urop
-  Undergraduate Research Opportunity Program\\
-  (UROP) Project Report \\
-\else
-  \if@fyp
-    B.Comp. Dissertation \\
-   \else
-    
-  \fi
-\fi
-\vspace{1 cm}
-\Large \textbf{\@title} \vspace{2 cm} \large \\
-By \\ \vspace{.5cm}
+\Large \textbf{\@title}
+\vspace{10.5 cm} 
+\large \\
+Submitted By \\ 
+%\vspace{.5cm}
 \@author \\
-\vspace{2 cm} 
-Department of Computer Science \\  \vspace{.5cm}
-School of Computing \\ \vspace{.5cm}
-National University of Singapore \\ \vspace{1cm}
-\@pjyear \\
+%\vspace{2 cm}
+%\vspace{1 cm}
+%Department of Electrical \& Computer Engineering  \\  
+%\vspace{.5cm}
+%School of Computing \\ \vspace{.5cm}
+%National University of Singapore \\ \vspace{1cm}
+%\@pjyear \\
+\vspace{9.5 cm}
+In partial fulfillment of the \\
+requirements for the Degree of \\
+Bachelor of Engineering (Computer Engineering)\\
+National University of Singapore
+
 \end{centering}
 
-\vspace{5cm}
+\newpage
+%\setcounter{page}\@ne
+%\addcontentsline{toc}{chapter}{Title}
+\thispagestyle{empty}
+\begin{centering}
+\large
+B.Eng. Dissertation \\
+\vspace{4 cm}
+%\Large \textbf{\@title} \vspace{2 cm} \large \\
+\Large \textbf{\@title}
+\vspace{5 cm} \\
+\large
+By \\ 
+\vspace{.5 cm}
+\@author \\
+%\vspace{2 cm} 
+%Department of Electrical \& Computer Engineering \\  \vspace{.5cm} \\ 
+\vspace{.5cm}
+National University of Singapore \\ 
+\vspace{.5cm}
+\@pjyear
 
-Project No: \@pjnumber
+\end{centering}
 
-Advisor: \@advisor
-
+\vspace{6cm}
+\begin{flushleft}
+Project No: \@pjnumber \\
+Advisor: \@advisor \\
+\end{flushleft}
 Deliverables: 
-  \begin{list}{}{%
-	\setlength{\leftmargin}{4em}
-	\setlength{\topsep}{0pt}
-	\setlength{\parsep}{0pt}
-  	\setlength{\itemsep}{0pt}}
-	\@deliverables
-  \end{list}
+\begin{list}{}{%
+\setlength{\leftmargin}{4em}
+\setlength{\topsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\itemsep}{0pt}}
+\@deliverables
+\end{list}
 
+%\newpage
+%\thispagestyle{empty}
+%\begin{centering}
+%\vspace{6 cm}
+%\Large \textbf{\@title} 
+%\vspace{8 cm} 
+%\large \\
+%Submitted By \\ 
+%\vspace{.5cm}
+%\@author \\
+%\vspace{2 cm}
+%\vspace{1 cm}
+%Department of Electrical \& Computer Engineering  \\  
+%\vspace{.5cm}
+%School of Computing \\ \vspace{.5cm}
+%National University of Singapore \\ \vspace{1cm}
+%\@pjyear \\
+%\vspace{10 cm}
+%In partial fulfillment of the \\
+%requirements for the Degree of \\
+%Bachelor of Engineering \\
+%National University of Singapore
+%
+%\end{centering}
 \end{titlepage}%
+
 \global\let\maketitle\relax
 \global\let\@thanks\@empty
 \global\let\@author\@empty
@@ -637,7 +391,7 @@ Deliverables:
               \if@twoside
                \if@openright
                 \null
-                \thispagestyle{empty}%
+                %\thispagestyle{empty}%
                 \newpage
                \fi
               \fi
@@ -658,6 +412,7 @@ Deliverables:
      \typeout{\@chapapp\space\thechapter.}%
      \addcontentsline{toc}{chapter}%
      {\protect\numberline{\thechapter}#1}%
+     %{Chapter \protect\numberline{\thechapter}#1}%
   \else
     \addcontentsline{toc}{chapter}{#1}%
   \fi
@@ -816,24 +571,24 @@ Deliverables:
 \if@compatibility
 \newenvironment{titlepage}
     {%
-      \if@twocolumn
-        \@restonecoltrue\onecolumn
-      \else
-        \@restonecolfalse\newpage
-      \fi
-      \thispagestyle{empty}%
+      %\if@twocolumn
+      %  \@restonecoltrue\onecolumn
+      %\else
+      %  \@restonecolfalse\newpage
+      %\fi
+      %\thispagestyle{empty}%
     }%
     {\if@restonecol\twocolumn \else \newpage \fi
     }
 \else
 \newenvironment{titlepage}
     {%
-      \if@twocolumn
-        \@restonecoltrue\onecolumn
-      \else
-        \@restonecolfalse\newpage
-      \fi
-      \thispagestyle{empty}%
+      %\if@twocolumn
+      %  \@restonecoltrue\onecolumn
+      %\else
+      %  \@restonecolfalse\newpage
+      %\fi
+      %\thispagestyle{empty}%
     }%
     {\if@restonecol\twocolumn \else \newpage \fi
     }
@@ -980,10 +735,23 @@ Deliverables:
           \MakeUppercase\listtablename}%
          {\MakeUppercase\listtablename}%
     \@starttoc{lot}%
-    \if@openright\cleardoublepage\else\clearpage\fi
+    %\if@openright\cleardoublepage\else\clearpage\fi
 	\normalspacing
     }
+%\newcommand*\l@symbols{\@dottedtocline{1}{1.5em}{2.3em}}
+%\newcommand\listofsybmols{%
+%    \singlespacing
+%	\addcontentsline{toc}{chapter}{\listsybmolsname}
+%    \chapter*{\listsybmolsname}%
+%      \@mkboth{%
+%          \MakeUppercase\listsybmolsname}%
+%         {\MakeUppercase\listsybmolsname}%
+%   \@starttoc{los}%
+%    \if@openright\cleardoublepage\else\clearpage\fi
+%	\normalspacing
+%    }
 \let\l@table\l@figure
+%\let\l@table\l@symbols
 \newdimen\bibindent
 \setlength\bibindent{1.5em}
 \newenvironment{thebibliography}[1]
@@ -1042,6 +810,7 @@ Deliverables:
 \newcommand\contentsname{Table of Contents}
 \newcommand\listfigurename{List of Figures}
 \newcommand\listtablename{List of Tables}
+%\newcommand\listsybmolsname{List of Symbols and Abbreviations}
 \newcommand\bibname{References}
 \newcommand\indexname{Index}
 \newcommand\figurename{Figure}
@@ -1071,5 +840,3 @@ Deliverables:
 \fi
 \normalspacing
 \endinput
-%%
-%% End of file `report.cls'.
